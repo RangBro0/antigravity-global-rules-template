@@ -127,6 +127,21 @@ if ($Mode -eq "Pull") {
     } else {
         Write-Host "Google Drive mirroring skipped."
     }
+
+    # 7. Optional: Ask to install Playwright browsers
+    $PlaywrightJsonPath = Join-Path $LocalConfigDir "plugins\playwright-plugin\plugin.json"
+    if (Test-Path $PlaywrightJsonPath) {
+        Write-Host ""
+        Write-Host "Playwright MCP plugin detected."
+        Write-Host "WARNING: Playwright browser automation is powerful but can cause extremely HIGH token usage (loading entire HTML pages)."
+        $InstallPlaywright = Read-Host "Do you want to install Playwright browser binaries now? (y/n) [Default: n]"
+        if ($InstallPlaywright -match '^[yY]([eE][sS])?$') {
+            Write-Host "Installing Playwright browsers..."
+            npx playwright install
+        } else {
+            Write-Host "Playwright browser installation skipped. (You can install later via 'npx playwright install')"
+        }
+    }
 }
 elseif ($Mode -eq "Push") {
     Write-Host ">>> Push Mode: Copying local settings to repository and Google Drive."
