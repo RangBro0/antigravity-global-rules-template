@@ -22,7 +22,7 @@
    .\sync_config.ps1 -Mode Pull
    ```
    - **자동 감지**: 스크립트가 로컬 PC의 구글 드라이브 마운트 문자(`G:`, `H:`, `I:`)와 `GITHUB_PERSONAL_ACCESS_TOKEN` 환경 변수를 먼저 탐색합니다.
-   - **입력 유도**: 감지되지 않을 경우 콘솔 프롬프트로 **본인의 구글 드라이브 동기화 경로**와 **GitHub 개인 토큰**을 직접 묻습니다. 입력 즉시 템플릿의 플레이스홀더를 치환하여 로컬 설정(`%USERPROFILE%\.gemini\config\mcp_config.json`)을 자동으로 완성해 줍니다.
+   - **입력 유도**: 감지되지 않을 경우 콘솔 프롬프트로 **구글 드라이브 동기화 경로**와 **GitHub 개인 토큰**을 직접 묻습니다. 구글 드라이브를 사용하지 않는다면 엔터를 눌러 건너뛸 수 있으며, 이 경우 로컬 스크래치 폴더(`%USERPROFILE%\.gemini\antigravity\scratch`)를 기본 경로로 활용해 가동되도록 조치합니다. 입력 완료 즉시 플레이스홀더를 치환하여 로컬 설정(`%USERPROFILE%\.gemini\config\mcp_config.json`)을 완성해 줍니다.
    - **연쇄 빌드**: 설정 파일 구성 완료 즉시 로컬 연동 커넥터를 실행하여, 신규 플러그인 빌드와 영문 스킬 가이드를 자동 생성/활성화합니다.
 
 ---
@@ -31,7 +31,7 @@
 
 ```text
 antigravity-global-rules-template/
-├── sync_config.ps1                 # 로컬 PC ↔ 저장소 ↔ 구글드라이브 3자 통합 동기화 스크립트
+├── sync_config.ps1                 # 로컬 PC ↔ 저장소 간 동기화 스크립트 (구글 드라이브 연동은 선택 사항)
 └── config/                         # Antigravity 실제 로컬 경로(%USERPROFILE%\.gemini\config)와 매핑되는 최신 구성
     ├── mcp_config.json             # MCP 서버 구동 정의 템플릿 (토큰/경로 플레이스홀더화 완료)
     │
