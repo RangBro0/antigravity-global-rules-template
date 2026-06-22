@@ -1,0 +1,13 @@
+{
+  "name": "playwright-plugin",
+  "version": "1.0.0",
+  "description": "Auto-generated plugin wrapping the playwright MCP server.",
+  "author": {
+    "name": "Antigravity MCP & Plugin Connector"
+  },
+  "keywords": [
+    "mcp",
+    "plugin",
+    "playwright"
+  ]
+}

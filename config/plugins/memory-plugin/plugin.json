@@ -1,0 +1,13 @@
+{
+  "name": "memory-plugin",
+  "version": "1.0.0",
+  "description": "Auto-generated plugin wrapping the memory MCP server.",
+  "author": {
+    "name": "Antigravity MCP & Plugin Connector"
+  },
+  "keywords": [
+    "mcp",
+    "plugin",
+    "memory"
+  ]
+}

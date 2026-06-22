@@ -1,0 +1,39 @@
+{
+  "mcpServers": {
+    "github": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "command": "npx",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{GITHUB_TOKEN}}"
+      }
+    },
+    "memory": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "command": "npx",
+      "env": {
+        "MEMORY_FILE_PATH": "{{GD_SHARE_PATH}}\\memory.json"
+      }
+    },
+    "playwright": {
+      "args": [
+        "-y",
+        "@playwright/mcp",
+        "--headless"
+      ],
+      "command": "npx"
+    },
+    "sqlite": {
+      "args": [
+        "--db-path",
+        "{{GD_SHARE_PATH}}\\database.db"
+      ],
+      "command": "{{USERPROFILE}}\\AppData\\Local\\Python\\pythoncore-3.14-64\\Scripts\\mcp-server-sqlite.exe"
+    }
+  }
+}
