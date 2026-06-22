@@ -33,18 +33,29 @@ if ($Mode -eq "Pull") {
         }
     }
     
+    $GDriveEnabled = $true
     if ($null -eq $DetectedGDrivePath) {
         Write-Host "Could not auto-detect Google Drive share path."
-        $UserInputPath = Read-Host "Please enter the absolute path to your Google Drive share folder (e.g., G:\내 드라이브\antigravity_share)"
+        $UserInputPath = Read-Host "Please enter the absolute path to your Google Drive share folder (e.g., G:\내 드라이브\antigravity_share) [Press Enter to skip Google Drive sync]"
         if ([string]::IsNullOrWhiteSpace($UserInputPath)) {
-            Write-Error "Google Drive share path is required to sync. Aborting."
-            exit 1
+            $LocalDataPath = Join-Path $LocalConfigDir "data"
+            Write-Host "Google Drive sync skipped. Falling back to local data directory for database/memory files: $LocalDataPath"
+            if (!(Test-Path $LocalDataPath)) {
+                New-Item -ItemType Directory -Force -Path $LocalDataPath | Out-Null
+            }
+            $DetectedGDrivePath = $LocalDataPath
+            $GDriveEnabled = $false
+        } else {
+            $DetectedGDrivePath = $UserInputPath
         }
-        $DetectedGDrivePath = $UserInputPath
     }
     
     $GDriveConfigDir = Join-Path $DetectedGDrivePath ".gemini\antigravity\config"
-    Write-Host "Using Google Drive share path: $DetectedGDrivePath"
+    if ($GDriveEnabled) {
+        Write-Host "Using Google Drive share path: $DetectedGDrivePath"
+    } else {
+        Write-Host "Using local fallback path: $DetectedGDrivePath"
+    }
     
     # 2. Check/Ask for GitHub Personal Access Token (PAT)
     $GithubToken = $env:GITHUB_PERSONAL_ACCESS_TOKEN
@@ -54,9 +65,10 @@ if ($Mode -eq "Pull") {
     
     if ([string]::IsNullOrWhiteSpace($GithubToken)) {
         Write-Host "GitHub Personal Access Token (PAT) environment variable not found."
-        $GithubToken = Read-Host "Please enter your GitHub Personal Access Token (ghp_...)"
+        $GithubToken = Read-Host "Please enter your GitHub Personal Access Token (ghp_...) [Press Enter to skip]"
         if ([string]::IsNullOrWhiteSpace($GithubToken)) {
             Write-Warning "No GitHub Token provided. GitHub MCP server may fail to run."
+            $GithubToken = ""
         }
     }
     
@@ -106,12 +118,14 @@ if ($Mode -eq "Pull") {
         }
     }
     
-    # 6. Mirror to Google Drive
-    if (Test-Path $DetectedGDrivePath) {
+    # 6. Mirror to Google Drive (only if enabled)
+    if ($GDriveEnabled -and (Test-Path $DetectedGDrivePath)) {
         Write-Host ">>> Mirroring local settings to Google Drive share..."
         robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
         robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
         robocopy "$LocalConfigDir" "$GDriveConfigDir" "mcp_config.json" /R:3 /W:5
+    } else {
+        Write-Host "Google Drive mirroring skipped."
     }
 }
 elseif ($Mode -eq "Push") {
@@ -143,13 +157,22 @@ elseif ($Mode -eq "Push") {
         }
     }
     
+    $GDriveEnabled = $true
     if ($null -eq $DetectedGDrivePath) {
         Write-Host "Could not auto-detect Google Drive share path for backup."
-        $DetectedGDrivePath = Read-Host "Please enter the absolute path to your Google Drive share folder (e.g., G:\내 드라이브\antigravity_share)"
+        $UserInputPath = Read-Host "Please enter the absolute path to your Google Drive share folder (e.g., G:\내 드라이브\antigravity_share) [Press Enter to skip Google Drive mirroring]"
+        if ([string]::IsNullOrWhiteSpace($UserInputPath)) {
+            Write-Host "Google Drive mirroring disabled."
+            $GDriveEnabled = $false
+        } else {
+            $DetectedGDrivePath = $UserInputPath
+        }
     }
     
     $GDriveConfigDir = Join-Path $DetectedGDrivePath ".gemini\antigravity\config"
-    Write-Host "Using Google Drive share path: $DetectedGDrivePath"
+    if ($GDriveEnabled) {
+        Write-Host "Using Google Drive share path: $DetectedGDrivePath"
+    }
     
     # 1. Copy local config/skills/plugins to repo
     robocopy "$LocalConfigDir\skills" "$RepoConfigDir\skills" /E /R:3 /W:5
@@ -169,7 +192,7 @@ elseif ($Mode -eq "Push") {
         $NewContent = $NewContent -replace $EscapedProfileDouble, '{{USERPROFILE}}'
         
         # Replace Google Drive path with {{GD_SHARE_PATH}}
-        if (![string]::IsNullOrWhiteSpace($DetectedGDrivePath)) {
+        if ($GDriveEnabled -and ![string]::IsNullOrWhiteSpace($DetectedGDrivePath)) {
             $EscapedGDPath = [Regex]::Escape($DetectedGDrivePath)
             $NewContent = $NewContent -replace $EscapedGDPath, '{{GD_SHARE_PATH}}'
             
@@ -197,7 +220,7 @@ elseif ($Mode -eq "Push") {
     }
     
     # 3. Sync to Google Drive share
-    if (Test-Path $DetectedGDrivePath) {
+    if ($GDriveEnabled -and (Test-Path $DetectedGDrivePath)) {
         Write-Host ">>> Mirroring local settings to Google Drive share..."
         robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
         robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
