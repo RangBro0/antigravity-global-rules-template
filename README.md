@@ -48,12 +48,12 @@ antigravity-global-rules-template/
         │   ├── plugin.json
         │   └── skills/
         │       └── custom_global_rules/
-        │           ├── SKILL_C_code_quality.md      # 사용자 코드 품질 규칙 (국문)
-        │           ├── SKILL_C_custom_skills.md     # 사용자 커스텀 스킬 작성 표준 (국문)
-        │           ├── SKILL_C_memory_management.md  # 장기 기억 지식 그래프 관리 지침 (국문)
-        │           ├── SKILL_C_project_context_management.md # 작업 범위 고정 및 컨텍스트 관리 지침 (국문)
-        │           ├── SKILL_C_response_rules.md    # 한글(국문) 응답 원칙 규칙 (국문)
-        │           └── SKILL_C_security_rules.md    # 프록시 및 API 보안 검사 규칙 (국문)
+        │           ├── SKILL_C_code_quality.md      # 사용자 코드 품질 규칙 (영문)
+        │           ├── SKILL_C_custom_skills.md     # 사용자 커스텀 스킬 작성 표준 (영문)
+        │           ├── SKILL_C_memory_management.md  # 장기 기억 지식 그래프 관리 지침 (영문)
+        │           ├── SKILL_C_project_context_management.md # 작업 범위 고정 및 컨텍스트 관리 지침 (영문)
+        │           ├── SKILL_C_response_rules.md    # 한글(국문) 응답 원칙 규칙 (영문)
+        │           └── SKILL_C_security_rules.md    # 프록시 및 API 보안 검사 규칙 (영문)
         │
         ├── github-plugin/          # [GitHub MCP 바인딩 플러그인]
         │   ├── plugin.json
@@ -98,7 +98,7 @@ antigravity-global-rules-template/
 ---
 
 ### 2. 사용자 전역 규칙 플러그인 (plugins/custom-global-rules/ 하위)
-에이전트의 대화 스타일, 코딩 표준, 보안 규칙 등을 제어하는 규칙 모음입니다. (국문 작성)
+에이전트의 대화 스타일, 코딩 표준, 보안 규칙 등을 제어하는 규칙 모음입니다. (영문 작성)
 
 * **`SKILL_C_code_quality.md`**
   - **용도**: 소스 코드 품질 및 주석 작성 표준화
