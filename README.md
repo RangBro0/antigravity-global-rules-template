@@ -31,11 +31,51 @@
 
 ```text
 antigravity-global-rules-template/
-├── sync_config.ps1             # 로컬 PC ↔ 저장소 ↔ 구글드라이브 3자 통합 동기화 스크립트
-└── config/                     # Antigravity 실제 로컬 경로(%USERPROFILE%\.gemini\config)와 매핑될 최신 구성
-    ├── mcp_config.json         # MCP 서버 구동 정의 템플릿 (토큰/경로 플레이스홀더화 완료)
-    ├── skills/                 # 전역 수동/자동 로드 스킬 폴더
-    └── plugins/                # 개별 플러그인 패키지 및 규칙 폴더
+├── sync_config.ps1                 # 로컬 PC ↔ 저장소 ↔ 구글드라이브 3자 통합 동기화 스크립트
+└── config/                         # Antigravity 실제 로컬 경로(%USERPROFILE%\.gemini\config)와 매핑되는 최신 구성
+    ├── mcp_config.json             # MCP 서버 구동 정의 템플릿 (토큰/경로 플레이스홀더화 완료)
+    │
+    ├── skills/                     # 전역 수동/자동 로드 스킬 폴더
+    │   ├── SKILL_A_plugin_mcp_manager/
+    │   │   └── SKILL.md            # MCP 서버 및 플러그인 패키징 지침 (영문)
+    │   ├── SKILL_C_workflow_skill_creator/
+    │   │   └── SKILL.md            # 사용자 워크플로우 분석 및 스킬 자동 추출 가이드 (영문)
+    │   └── token_conservation/
+    │       └── SKILL.md            # 토큰 절약 및 컨텍스트 메모리 최적화 가이드 (영문)
+    │
+    └── plugins/                    # 개별 플러그인 패키지 및 규칙 폴더
+        ├── custom-global-rules/    # [사용자 전역 규칙 플러그인]
+        │   ├── plugin.json
+        │   └── skills/
+        │       └── custom_global_rules/
+        │           ├── SKILL_C_code_quality.md      # 사용자 코드 품질 규칙 (국문)
+        │           ├── SKILL_C_custom_skills.md     # 사용자 커스텀 스킬 작성 표준 (국문)
+        │           ├── SKILL_C_memory_management.md  # 장기 기억 지식 그래프 관리 지침 (국문)
+        │           ├── SKILL_C_project_context_management.md # 작업 범위 고정 및 컨텍스트 관리 지침 (국문)
+        │           ├── SKILL_C_response_rules.md    # 한글(국문) 응답 원칙 규칙 (국문)
+        │           └── SKILL_C_security_rules.md    # 프록시 및 API 보안 검사 규칙 (국문)
+        │
+        ├── github-plugin/          # [GitHub MCP 바인딩 플러그인]
+        │   ├── plugin.json
+        │   └── skills/github_skills/
+        │       └── SKILL_A_github.md
+        ├── sqlite-plugin/          # [SQLite MCP 바인딩 플러그인]
+        │   ├── plugin.json
+        │   └── skills/sqlite_skills/
+        │       └── SKILL_A_sqlite.md
+        ├── memory-plugin/          # [Memory MCP 바인딩 플러그인]
+        │   ├── plugin.json
+        │   └── skills/memory_skills/
+        │       └── SKILL_A_memory.md
+        ├── playwright-plugin/      # [Playwright MCP 바인딩 플러그인]
+        │   ├── plugin.json
+        │   └── skills/playwright_skills/
+        │       └── SKILL_A_playwright.md
+        │
+        ├── chrome-devtools-plugin/ # 크롬 디버깅용 플러그인
+        ├── firebase/               # 파이어베이스 연동 플러그인
+        ├── google-antigravity-sdk/ # 안티그래비티 전용 SDK 플러그인
+        └── modern-web-guidance-plugin/ # 모던 웹 프론트엔드 프리미엄 디자인 가이드
 ```
 
 ---
