@@ -32,7 +32,6 @@
 ```text
 antigravity-global-rules-template/
 ├── sync_config.ps1             # 로컬 PC ↔ 저장소 ↔ 구글드라이브 3자 통합 동기화 스크립트
-├── legacy/                     # 이전 버전의 백업 및 격리 보관 폴더
 └── config/                     # Antigravity 실제 로컬 경로(%USERPROFILE%\.gemini\config)와 매핑될 최신 구성
     ├── mcp_config.json         # MCP 서버 구동 정의 템플릿 (토큰/경로 플레이스홀더화 완료)
     ├── skills/                 # 전역 수동/자동 로드 스킬 폴더
