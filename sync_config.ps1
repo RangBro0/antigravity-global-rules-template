@@ -272,12 +272,18 @@ if ($Mode -eq "Pull") {
         }
     }
     
-    # 7. Mirror to Google Drive (only if enabled)
+    # 7. Mirror to Google Drive (only if requested by user)
     if ($GDriveEnabled -and (Test-Path $DetectedGDrivePath)) {
-        Write-Host ">>> Mirroring local settings to Google Drive share..." -ForegroundColor Cyan
-        robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
-        robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
-        robocopy "$LocalConfigDir" "$GDriveConfigDir" "mcp_config.json" /R:3 /W:5
+        Write-Host ""
+        $MirrorAns = Read-Host "Do you want to mirror the applied settings back to Google Drive? (y/n) [Default: n]"
+        if ($MirrorAns -match '^[yY]([eE][sS])?$') {
+            Write-Host ">>> Mirroring local settings to Google Drive share..." -ForegroundColor Cyan
+            robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
+            robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
+            robocopy "$LocalConfigDir" "$GDriveConfigDir" "mcp_config.json" /R:3 /W:5
+        } else {
+            Write-Host "Google Drive mirroring skipped."
+        }
     } else {
         Write-Host "Google Drive mirroring skipped."
     }
@@ -390,11 +396,17 @@ elseif ($Mode -eq "Push") {
         Write-Host "Repository config saved (templated): $RepoMcpJsonPath"
     }
     
-    # 3. Sync to Google Drive share
+    # 3. Sync to Google Drive share (only if requested by user)
     if ($GDriveEnabled -and (Test-Path $DetectedGDrivePath)) {
-        Write-Host ">>> Mirroring local settings to Google Drive share..."
-        robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
-        robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
-        robocopy "$LocalConfigDir" "$GDriveConfigDir" "mcp_config.json" /R:3 /W:5
+        Write-Host ""
+        $BackupAns = Read-Host "Do you want to backup/sync your local settings to Google Drive? (y/n) [Default: n]"
+        if ($BackupAns -match '^[yY]([eE][sS])?$') {
+            Write-Host ">>> Mirroring local settings to Google Drive share..."
+            robocopy "$LocalConfigDir\skills" "$GDriveConfigDir\skills" /E /R:3 /W:5
+            robocopy "$LocalConfigDir\plugins" "$GDriveConfigDir\plugins" /E /R:3 /W:5
+            robocopy "$LocalConfigDir" "$GDriveConfigDir" "mcp_config.json" /R:3 /W:5
+        } else {
+            Write-Host "Google Drive backup skipped."
+        }
     }
 }
